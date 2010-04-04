@@ -239,14 +239,6 @@
             var POV = sign.streetview;
             var options = {latlng: point, pov: POV};
             streetview = new GStreetviewPanorama(document.getElementById("streetview"), options);
-            GEvent.addListener(myPano, "error", handleNoFlash);
-        }
-    
-        function handleNoFlash(errorCode) {
-          if (errorCode == FLASH_UNAVAILABLE) {
-            alert("Error: Flash doesn't appear to be supported by your browser");
-            return;
-          }
         }
     </script>
     
