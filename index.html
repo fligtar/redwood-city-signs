@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Redwood City: Signs with Attitude</title>
+    <style type="text/css">
+        body {
+            font-family: helvetica;
+            margin: 0 auto;
+            width: 800px;
+            font-size: 11px;
+        }
+        header h1 {
+            font-size: 40px;
+            font-family: georgia, serif;
+            text-shadow: 1px 1px 1px #fff, 2px 2px 1px #000;
+            font-weight: bold;
+        }
+        header h2 {
+            -moz-transform: rotate(-5deg);
+            -webkit-transform: rotate(-5deg);
+            border: 1px solid red;
+            color: red;
+            display: inline;
+            font-family: monospace;
+            text-transform: uppercase;
+            position: relative;
+            top: -24px;
+            left: 7px;
+            font-size: 23px;
+            -moz-box-shadow: 2px 2px 2px red;
+            -webkit-box-shadow: 2px 2px 2px red;
+            font-weight: bold;
+        }
+        header h3 {
+            float: right;
+            font-size: 14px;
+            font-weight: normal;
+            max-width: 50%;
+            text-align: right;
+            
+        }
+        .bubble {
+            min-width: 300px;
+            font-size: 12px;
+        }
+        .bubble img {
+            float: left;
+            height: 150px;
+            border: none;
+            padding-right: 5px;
+        }
+        .bubble h1 {
+            font-size: 15px;
+        }
+        .bubble .nav .prev {
+            float: left;
+        }
+        .bubble .nav .next {
+            float: right;
+        }
+        #map {
+            width: 800px;
+            height: 400px;
+        }
+        #streetview {
+            width: 800px;
+            height: 200px;
+        }
+        footer {
+            text-align: center;
+            font-style: italic;
+            font-family: georgia;
+        }
+    </style>
+    <!--[if IE]>
+    <script type="text/javascript" src="http://g.fligtar.com/html5-ie.js"></script>
+    <![endif]-->
+</head>
+
+<body onload="initialize()" onunload="GUnload()">
+    <header>
+        <h3>click on the map markers and imagine how uncomfortable you would feel driving past one of these signs</h3>
+        <hgroup>
+            <h1>Redwood City</h1>
+            <h2>signs with attitude</h2>
+        </hgroup>
+    </header>
+    
+    <section>
+    
+        <div id="map"></div>
+        <div id="streetview"></div>
+    
+    </section>
+    
+    <footer>
+        <p>Know about a sign in Redwood City, California that we haven't found yet? <a href="mailto:rwc-signs@fligtar.com">We'd love to know about it!</a></p>
+    </footer>
+    
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAMoPqRjsC0dhiV9zI84bKchTnqeLhuioiMhX5PZXXFDSOuKggAxS9WLYShkFAdXzSDZNxU_QBKRQD2g&amp;sensor=true_or_false" type="text/javascript"></script>
+    <script type="text/javascript">
+        var signs = [
+            {
+                lat: 37.497589,
+                lng: -122.24033,
+                label: 'This isn\'t a freeway. SLOW DOWN',
+                location: 'Industrial Way near G St.',
+                credit: '<a href="http://fligtar.com">Justin Scott</a>',
+                img: 'freeway.jpg',
+                streetview: {
+                    yaw: 172.73,
+                    pitch: -1.99,
+                    zoom: 0
+                }
+            },
+            {
+                lat: 37.491193,
+                lng: -122.238087,
+                label: 'Speeding Tickets Available Ahead',
+                location: 'Arguello St. near Howland St.',
+                credit: '<a href="http://fligtar.com">Justin Scott</a>',
+                img: 'tickets.jpg',
+                streetview: {
+                    yaw: 185.02,
+                    pitch: 0.96,
+                    zoom: 1
+                }
+            },
+            {
+                lat: 37.487083,
+                lng: -122.243947,
+                label: 'Is today the day... your speed hurts a child?',
+                location: 'Whipple Ave. near Elwood St.',
+                credit: '<a href="http://fligtar.com">Justin Scott</a>',
+                img: 'child.jpg',
+                streetview: {
+                    yaw: 296.03,
+                    pitch: 3.07,
+                    zoom: 1
+                }
+            },
+            {
+                lat: 37.476071,
+                lng: -122.223207,
+                label: 'Please don\'t speed in our neighborhood. We don\'t speed in yours',
+                location: 'Redwood Ave. at Woodside Rd. ramp',
+                credit: '<a href="http://fligtar.com">Justin Scott</a>',
+                img: 'neighborhood.jpg',
+                streetview: {
+                    lat: 37.476071,
+                    lng: -122.223207,
+                    yaw: 267.67,
+                    pitch: -0.71,
+                    zoom: 1
+                }
+            },
+            {
+                lat: 37.488357,
+                lng: -122.234851,
+                label: 'In a hurry? A speeding ticket will make you LATE!',
+                location: 'Arguello St. at Brewster Ave.',
+                credit: '<a href="http://blogmag.net/blog/alix">Alix Franquet</a>',
+                img: 'late.jpg',
+                streetview: {
+                    yaw: 352.67,
+                    pitch: 2.43,
+                    zoom: 1
+                }
+            },
+            {
+                lat: 37.460194,
+                lng: -122.246022,
+                label: 'Speed Limit 25 MPH This means YOU!',
+                location: 'Fernside St. at Roosevelt Ave.',
+                credit: '<a href="http://blogmag.net/blog/alix">Alix Franquet</a>',
+                img: 'meansyou.jpg',
+                streetview: {
+                    yaw: 203.62,
+                    pitch: 6.75,
+                    zoom: 1
+                }
+            }
+        ];
+        
+        var map = null;
+        var streetview = null;
+        
+        function initialize() {
+            if (GBrowserIsCompatible()) {
+                map = new GMap2(document.getElementById("map"));
+                map.setCenter(new GLatLng(37.481450383529236, -122.22564697265625), 13);
+                
+                map.setUIToDefault();
+                
+                // Add all signs
+                for (var s = 0; s < signs.length; s++) {
+                    addSign(signs[s], s);
+                }
+                
+                clickSign(0);
+            }
+        }
+    
+        function addSign(sign, num) {
+            var point = new GLatLng(sign.lat, sign.lng);
+		    var marker = new GMarker(point);
+		    
+		    var bubble = '<div class="bubble"><a href="signs/' + sign.img + '" target="_blank"><img src="signs/' + sign.img + '" alt="' + sign.label + '"/></a>';
+		    bubble += '<h1>#' +(num + 1) + ' ' + sign.label + '</h1>';
+		    bubble += '<p>Location: ' + sign.location + '</p>';
+		    bubble += '<p>Submitted by: ' + sign.credit + '</p>';
+		    
+		    bubble += '<p class="nav">';
+		    if (num != 0)
+		        bubble += '<a href="#" onclick="clickSign(' + (num - 1) + '); return false;" class="prev">&laquo; previous sign</a>';
+		    
+		    if (num != (signs.length - 1))
+		        bubble += '<a href="#" onclick="clickSign(' + (num + 1) + '); return false;" class="next">next sign &raquo;</a>';
+		    
+		    bubble += '</p></div>';
+		    
+		    GEvent.addListener(marker, "click", function() {
+			    marker.openInfoWindowHtml(bubble);
+			    loadStreetview(sign);
+		    });
+		    
+		    map.addOverlay(marker);
+		    
+		    sign.marker = marker;
+	    }
+	    
+	    function clickSign(num) {
+	        GEvent.trigger(signs[num].marker, 'click');
+	    }
+    
+        function loadStreetview(sign) {
+            var point = new GLatLng(sign.lat, sign.lng);
+            var POV = sign.streetview;
+            var options = {latlng: point, pov: POV};
+            streetview = new GStreetviewPanorama(document.getElementById("streetview"), options);
+            GEvent.addListener(myPano, "error", handleNoFlash);
+        }
+    
+        function handleNoFlash(errorCode) {
+          if (errorCode == FLASH_UNAVAILABLE) {
+            alert("Error: Flash doesn't appear to be supported by your browser");
+            return;
+          }
+        }
+    </script>
+    
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-3232120-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+        var ga = document.createElement('script');
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' :
+            'http://www') + '.google-analytics.com/ga.js';
+        ga.setAttribute('async', 'true');
+        document.documentElement.firstChild.appendChild(ga);
+        })();
+    </script>
+
+
+</body>
+</html>
